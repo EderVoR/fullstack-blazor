@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dima", "Dima", "{8A89721A-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Core", "Dima\Dima.Core\Dima.Core.csproj", "{3E00D529-5B26-4C67-9CB7-9D5C297FAB54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Api", "Dima\Dima.Api\Dima.Api.csproj", "{D00D657C-BE00-4B44-9C2B-39F46A60A92F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{3E00D529-5B26-4C67-9CB7-9D5C297FAB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E00D529-5B26-4C67-9CB7-9D5C297FAB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E00D529-5B26-4C67-9CB7-9D5C297FAB54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00D657C-BE00-4B44-9C2B-39F46A60A92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00D657C-BE00-4B44-9C2B-39F46A60A92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00D657C-BE00-4B44-9C2B-39F46A60A92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00D657C-BE00-4B44-9C2B-39F46A60A92F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3E00D529-5B26-4C67-9CB7-9D5C297FAB54} = {8A89721A-1FC3-4A9A-83EA-DF6BE8F4B725}
+		{D00D657C-BE00-4B44-9C2B-39F46A60A92F} = {8A89721A-1FC3-4A9A-83EA-DF6BE8F4B725}
 	EndGlobalSection
 EndGlobal

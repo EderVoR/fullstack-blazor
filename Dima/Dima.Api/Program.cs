@@ -1,4 +1,6 @@
 using Dima.Api.Data;
+using Dima.Api.Handlers;
+using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
@@ -13,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connection);
 });
 
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
 {
@@ -26,9 +30,16 @@ app.UseSwaggerUI();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapPost("v1/categories", (CreateCategoryRequest request, Handler handler) => handler.Handle(request))
+app.MapPost("v1/categories", (CreateCategoryRequest request, ICategoryHandler handler) 
+    => handler.CreateAsync(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
+    .Produces<Response<Category>>();
+
+app.MapPut("v1/categories", (UpdateCategoryRequest request, ICategoryHandler handler)
+    => handler.UpdateAsync(request))
+    .WithName("Categories: Update")
+    .WithSummary("Atualiza uma categoria")
     .Produces<Response<Category>>();
 
 app.Run();

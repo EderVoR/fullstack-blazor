@@ -32,19 +32,64 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         }
     }
 
-    public Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
+    public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var categoria = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (categoria == null)
+                return new Response<Category?>(null, 404, "Categoria não localizada");
+
+            context.Categories.Remove(categoria);
+            await context.SaveChangesAsync();
+
+            return new Response<Category?>(categoria, message: "Categoria removida com sucesso");
+        }
+        catch
+        {
+            return new Response<Category?>(null, 500, "Não foi possivel remover a categoria");
+        }
     }
 
-    public Task<Response<List<Category>>> GetAllAsync(GetAllCategoryRequest request)
+    public async Task<PagedResponse<List<Category>?>> GetAllAsync(GetAllCategoryRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var query = context.Categories.AsNoTracking();
+
+            var categorias = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var count = await context.Categories.CountAsync();
+
+            return new PagedResponse<List<Category>?>(categorias, count, request.PageNumber, request.PageSize);
+        }
+        catch
+        {
+            return new PagedResponse<List<Category>?>(null, message: "Não foi possivel localizar a lista de moedas");
+        }
     }
 
-    public Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
+    public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var categoria = await context.Categories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (categoria == null)
+                return new Response<Category?>(null, message: "Categoria não localizada");
+
+            return new Response<Category?>(categoria, message:"Categoria localizada com sucesso");
+        }
+        catch
+        {
+            return new Response<Category?>(null, 500, "Não foi possivel localizar a categoria");
+        }
     }
 
     public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
@@ -52,7 +97,7 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         try
         {
             var categoria = await context.Categories
-                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+                .FirstOrDefaultAsync(x => x.Id == request.Id);// && x.UserId == request.UserId);
 
             if (categoria == null)
                 return new Response<Category?>(null, 404, "Categoria não encontrada");
